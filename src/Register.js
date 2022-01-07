@@ -1,9 +1,74 @@
-import React, { useRef } from 'react'
-import SignaturePad from "react-signature-canvas"
+import React, { useRef, useState } from 'react'
+import { useHistory } from 'react-router-dom'
+// import SignaturePad from "react-signature-canvas"
 import SignatureCanvas from 'react-signature-canvas'
+import "./App.css"
 
 const Register = () => {
+    const history=useHistory()
     const signPad = useRef({})
+    const clearSign=()=>{
+        const data=signPad.current.toDataURL()
+    setSign(data)
+        signPad.current.clear()
+    }
+
+   
+       
+        // console.log('object',data)
+    
+
+    const [last_name, setLast_name] = useState("")
+    const [first_name, setFirst_name] = useState("")
+    const [middle_initial, setMiddle_initial] = useState("")
+    const [dob, setDob] = useState("")
+    const [address, setAddress] = useState("")
+    const [address2, setAddress2] = useState("")
+    const [city, setCity] = useState("")
+    const [states, setStates] = useState("")
+    const [zip, setZip] = useState("")
+    const [email, setEmail] = useState("")
+    const [phone, setPhone] = useState("")
+    const [sex, setSex] = useState("")
+    const [race, setRace] = useState("")
+    const [ethnicity, setEthnicity] = useState("")
+    const [ins1Type,setIns1Type]=useState("")
+    const [image,setImage]=useState(null)
+    const [sign,setSign]=useState("")
+
+    // const data=signPad.current.toDataURL()
+    // setSign(data)
+
+    const imageHandler = (e) => {
+        const file = e.target.files[0]
+        console.log('howdy', file)
+        setImage(file)
+
+    }
+    const formData = new FormData()
+    formData.append('last_name', last_name)
+    formData.append('first_name', first_name)
+    formData.append('middle_initial', middle_initial)
+    formData.append('dob', dob)
+    formData.append('address', address)
+    formData.append('address2', address2)
+    formData.append('city', city)
+    formData.append('states', states)
+    formData.append('zip', zip)
+    formData.append('email', email)
+    formData.append('phone', phone)
+    formData.append('sex', sex)
+    formData.append('race', race)
+    formData.append('ethnicity', ethnicity)
+    formData.append('ins1Type', ins1Type)
+    formData.append('image', image)
+    formData.append('sign', sign)
+
+    const nextPage=()=>{
+        console.log("objectobjectobject", last_name,first_name,middle_initial,dob,address,
+        address2,city,states,zip,email,phone ,sex,race,ethnicity,ins1Type,image,sign)
+        history.push('/record')
+    }
     return (
         <>
             <section className='p-5'>
@@ -45,12 +110,13 @@ const Register = () => {
                                                     <label for="example-text-input">Patient Last Name</label>
                                                     <input className="form-control"
                                                         type="text"
-                                                        value=""
                                                         name="last_name"
                                                         maxlength="50"
                                                         required
 
-                                                        id="example-text-input" />
+                                                        id="example-text-input" 
+                                                        value={last_name} 
+                                                        onChange={(e) => setLast_name(e.target.value)}/>
                                                 </div>
                                             </div>
                                             <div className="col-md-4">
@@ -58,24 +124,26 @@ const Register = () => {
                                                     <label for="example-text-input">Patient First Name</label>
                                                     <input className="form-control"
                                                         type="text"
-                                                        value=""
                                                         id="first_name"
                                                         maxlength="50"
                                                         required
 
-                                                        name="first_name" />
+                                                        name="first_name"
+                                                        value={first_name} 
+                                                        onChange={(e) => setFirst_name(e.target.value)} />
                                                 </div>
                                             </div>
                                             <div className="col-md-2">
                                                 <div className="form-group">
                                                     <label for="example-text-input">Middle Initial</label>
                                                     <input className="form-control"
-                                                        type="text"
-                                                        value=""
+                                                        type="text" 
                                                         id="middle_initial"
                                                         maxlength="1"
 
-                                                        name="middle_initial" />
+                                                        name="middle_initial" 
+                                                        value={middle_initial} 
+                                                        onChange={(e) => setMiddle_initial(e.target.value)}/>
                                                 </div>
                                             </div>
                                             <div className="col-md-2">
@@ -86,9 +154,9 @@ const Register = () => {
                                                         onchange="getAge(this)"
                                                         id="datefield"
                                                         type="date"
-                                                        value=""
-
-                                                        name="dob" />
+                                                        name="dob"
+                                                        value={dob} 
+                                                        onChange={(e) => setDob(e.target.value)} />
                                                 </div>
                                             </div>
                                         </div>
@@ -98,21 +166,23 @@ const Register = () => {
                                                     <label for="address1">Patient Street Address</label>
                                                     <input className="form-control " required
                                                         type="text"
-                                                        value=""
                                                         name="address"
                                                         min='1901-01-01' max='2075-13-13'
 
-                                                        id="address" />
+                                                        id="address" 
+                                                        value={address} 
+                                                        onChange={(e) => setAddress(e.target.value)}/>
                                                 </div>
                                             </div>
                                             <div className="col-md-6">
                                                 <div className="form-group">
                                                     <label for="address2">Patient Address Line 2</label>
                                                     <input className="form-control" type="text"
-                                                        value=""
                                                         name="address2"
 
-                                                        id="address2" />
+                                                        id="address2" 
+                                                        value={address2} 
+                                                        onChange={(e) => setAddress2(e.target.value)}/>
                                                 </div>
                                             </div>
                                         </div>
@@ -122,10 +192,11 @@ const Register = () => {
                                                     <label for="city">Patient City</label>
                                                     <input className="form-control" required
                                                         type="text"
-                                                        value=""
                                                         name="city"
 
-                                                        id="city" />
+                                                        id="city"
+                                                        value={city} 
+                                                        onChange={(e) => setCity(e.target.value)}/>
                                                 </div>
                                             </div>
                                             <div className="col-md-3">
@@ -134,8 +205,9 @@ const Register = () => {
                                                     <select className="form-control"
                                                         required
                                                         id="state"
-                                                        name="state"
-
+                                                        name="states"
+                                                        value={states} 
+                                                        onChange={(e) => setStates(e.target.value)}
                                                     >
 
                                                         <option value="">Select...</option>
@@ -357,7 +429,8 @@ const Register = () => {
                                                         className="form-control zip"
                                                         required id="zip"
                                                         name="zip"
-                                                        value=""
+                                                        value={zip} 
+                                                        onChange={(e) => setZip(e.target.value)}
 
                                                     />
                                                 </div>
@@ -370,9 +443,9 @@ const Register = () => {
                                                     <input type="email"
                                                         className="form-control"
                                                         id="email"
-                                                        value=""
                                                         name="email"
-
+                                                        value={email} 
+                                                        onChange={(e) => setEmail(e.target.value)}
                                                         aria-describedby="emailHelp" />
                                                 </div>
                                             </div>
@@ -382,9 +455,9 @@ const Register = () => {
                                                     <input type="tel"
                                                         id="phone"
                                                         className="form-control"
-                                                        value=""
-
                                                         name="phone"
+                                                        value={phone} 
+                                                        onChange={(e) => setPhone(e.target.value)}
                                                     />
                                                 </div>
                                             </div>
@@ -397,8 +470,9 @@ const Register = () => {
                                                         className="form-control"
                                                         id="sex"
                                                         required
-
-                                                        name="sex">
+                                                        name="sex"
+                                                        value={sex}
+                                                        onChange={(e) => setSex(e.target.value)}>
                                                         <option disabled selected value="">Select...</option>
                                                         <option
                                                             value="Male" >
@@ -425,7 +499,9 @@ const Register = () => {
                                                     <select className="form-control" id="race"
                                                         required
 
-                                                        name="race">
+                                                        name="race"
+                                                        value={race}
+                                                        onChange={(e) => setRace(e.target.value)}>
                                                         <option disabled selected value="">Select...</option>
                                                         <option
                                                             value="American Indian or Alaska Native" >
@@ -474,8 +550,9 @@ const Register = () => {
                                                     <label for="ethnicity">Ethnicity</label>
                                                     <select className="form-control" id="ethnicity"
                                                         required
-
-                                                        name="ethnicity">
+                                                        name="ethnicity"
+                                                        value={ethnicity} 
+                                                        onChange={(e) => setEthnicity(e.target.value)}>
                                                         <option disabled selected value="">Select...</option>
                                                         <option
                                                             value="Hispanic or Spanish origin" >
@@ -499,7 +576,10 @@ const Register = () => {
                                             <div className="col-md-6">
                                                 <label className="text-primary h6">Id Card (Parent/Guardian ID for patients under 18)</label>
                                                 <div className="form-group">
-                                                    <input type="file" id="idCard" name="idCard" />
+                                                    <input type="file" id="idCard" name="idCard" 
+                                                    // value={idcard} 
+                                                    onChange={imageHandler}
+                                                    />
                                                     <br />
                                                     <small>Please take a photo of your id card and
                                                         upload.</small>
@@ -508,7 +588,9 @@ const Register = () => {
                                             </div>
                                             <div className="col-md-4 ">
                                                 <p className="text-primary h6">Please Select Insurance Type</p>
-                                                <select className="form-control" id="ins1Type" name="ins1Type">
+                                                <select className="form-control" id="ins1Type" name="ins1Type"
+                                                value={ins1Type} 
+                                                onChange={(e) => setIns1Type(e.target.value)}>
                                                     <option>Select..</option>
                                                     <option value="yes">Yes</option>
                                                     <option value="no" >No</option>
@@ -528,11 +610,13 @@ const Register = () => {
                                 <div className="card shadow m-4 border-left-primary">
                                     <div className="card-header py-3 d-flex justify-content-between" >
                                         <h6 className="m-0 font-weight-bold text-primary">Patient Signature (Parent/Guardian signature for patients under 18)</h6>
-                                        <button className="btn btn-primary">Clear Signature</button>
+                                        <button className="btn btn-primary"
+                                        onClick={clearSign}>Clear Signature</button>
                                     </div>
                                     <div className="card-body text-center w-fit " >
-                                        <SignatureCanvas penColor='blue'
-                                            canvasProps={{ width: 500, height: 200, className: 'sigCanvas bg-warning rounded' }} />
+                                        <SignatureCanvas penColor='black'
+                                        ref={signPad}
+                                            canvasProps={{ width: 500, height: 200, className: 'sigCanvas rounded' }} />
                                         {/* <SignaturePad ref={signPad} ></SignaturePad> */}
                                     </div>
 
@@ -541,9 +625,12 @@ const Register = () => {
                                 <div className=" d-flex justify-content-center">
 
                                     <button className="btn btn-outline-success px-5 py-2 font-weight-bold"
-                                    >Next</button>
+                                   onClick={nextPage} >Next</button>
+
+                                    
 
                                 </div>
+                                <p className='text-gray fw-lighter text-center mt-2' style={{fontSize:'14px'}}>*By clicking submit the patient gives authorization for test results and associated protected health information (PHI) to be sent via digital delivery methods including SMS text and email.</p>
                             </div>
                         </div>
                     </div>
