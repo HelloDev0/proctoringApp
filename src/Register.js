@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useRef, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 // import SignaturePad from "react-signature-canvas"
@@ -64,9 +65,11 @@ const Register = () => {
     formData.append('image', image)
     formData.append('sign', sign)
 
-    const nextPage=()=>{
+    const nextPage=async(e)=>{
+        e.preventDefault()
         console.log("objectobjectobject", last_name,first_name,middle_initial,dob,address,
         address2,city,states,zip,email,phone ,sex,race,ethnicity,ins1Type,image,sign)
+        await axios.post('http://localhost:1337/proctoring-users',formData)
         history.push('/record')
     }
     return (
